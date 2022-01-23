@@ -342,10 +342,10 @@ function shareText(score) {
         return '倒计时多了' + ((deviation_time / 1000) - 20).toFixed(2) + "s";
     }
     SubmitResults();
-    if (score <= 49) return '试着好好练一下？';
-    if (score <= 99) return '被盛bug逼疯';
-    if (score <= 169) return '谢谢你趣宝';
-    return '你就是b酱？';
+    if (score <= 79) return '试着好好练一下？';
+    if (score <= 139) return '被盛bug逼疯';
+    if (score <= 199) return '谢谢你趣宝';
+    return '欢迎来一筒群玩794573579';
 }
 
 function toStr(obj) {
