@@ -342,10 +342,9 @@ function shareText(score) {
     }
     SubmitResults();
     if (score <= 49) return '试着好好练一下？';
-    if (score <= 99) return 'TCL';
-    if (score <= 149) return 'TQL';
-    if (score <= 199) return '您';
-    return '人？';
+    if (score <= 99) return '被盛bug逼疯';
+    if (score <= 169) return '谢谢你趣宝';
+    return '你就是b酱？';
 }
 
 function toStr(obj) {
