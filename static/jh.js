@@ -281,7 +281,7 @@ function createGameLayer() {
     for (var i = 1; i <= 2; i++) {
         var id = 'GameLayer' + i;
         html += '<div id="' + id + '" class="GameLayer">';
-        for (var j = 0; j < 100; j++) {
+        for (var j = 0; j < 200; j++) {
             for (var k = 0; k < 4; k++) {
                 html += '<div id="' + id + '-' + (k + j * 4) + '" num="' + (k + j * 4) + '" class="block' + (k ? ' bl' : '') +
                     '"></div>';

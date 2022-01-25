@@ -191,7 +191,7 @@ var _ttreg = / t{1,2}(\d+)/,
     _clearttClsReg = / t{1,2}\d+| bad/;
 
 function refreshGameLayer(box, loop, offset) {
-    var i = Math.floor(Math.random() * 1000) % 4 + (loop ? 0 : 4);
+    var i = 0, jo = 0;
     for (var j = 0; j < box.children.length; j++) {
         var r = box.children[j],
             rstyle = r.style;
@@ -207,7 +207,24 @@ function refreshGameLayer(box, loop, offset) {
             });
             r.className += ' t' + (Math.floor(Math.random() * 1000) % 5 + 1);
             r.notEmpty = true;
-            i = (Math.floor(j / 4) + 1) * 4 + Math.floor(Math.random() * 1000) % 4;
+            i = (Math.floor(j / 4) + 1) * 4 - 1;
+            if (jo % 8 == 0)
+                i += 1;
+            if (jo % 8 == 1)
+                i += 1;
+            if (jo % 8 == 2)
+                i += 2;
+            if (jo % 8 == 3)
+                i += 2;
+            if (jo % 8 == 4)
+                i += 3;
+            if (jo % 8 == 5)
+                i += 3;
+            if (jo % 8 == 6)
+                i += 4;
+            if (jo % 8 == 7)
+                i += 4;
+            jo++;
         } else {
             r.notEmpty = false;
         }
@@ -276,7 +293,7 @@ function createGameLayer() {
     for (var i = 1; i <= 2; i++) {
         var id = 'GameLayer' + i;
         html += '<div id="' + id + '" class="GameLayer">';
-        for (var j = 0; j < 12; j++) {
+        for (var j = 0; j < 200; j++) {
             for (var k = 0; k < 4; k++) {
                 html += '<div id="' + id + '-' + (k + j * 4) + '" num="' + (k + j * 4) + '" class="block' + (k ? ' bl' : '') +
                     '"></div>';
