@@ -208,21 +208,21 @@ function refreshGameLayer(box, loop, offset) {
             r.className += ' t' + (Math.floor(Math.random() * 1000) % 5 + 1);
             r.notEmpty = true;
             i = (Math.floor(j / 4) + 1) * 4 - 1;
+            if (jo % 8 == 7)
+                i += 1;
             if (jo % 8 == 0)
                 i += 1;
             if (jo % 8 == 1)
-                i += 1;
+                i += 2;
             if (jo % 8 == 2)
                 i += 2;
             if (jo % 8 == 3)
-                i += 2;
+                i += 3;
             if (jo % 8 == 4)
                 i += 3;
             if (jo % 8 == 5)
-                i += 3;
-            if (jo % 8 == 6)
                 i += 4;
-            if (jo % 8 == 7)
+            if (jo % 8 == 6)
                 i += 4;
             jo++;
         } else {

@@ -209,17 +209,17 @@ function refreshGameLayer(box, loop, offset) {
             r.notEmpty = true;
             i = (Math.floor(j / 4) + 1) * 4 - 1;
             if (jo % 6 == 0)
-                i += 1;
-            if (jo % 6 == 1)
                 i += 2;
-            if (jo % 6 == 2)
+            if (jo % 6 == 1)
                 i += 1;
+            if (jo % 6 == 2)
+                i += 4;
             if (jo % 6 == 3)
-                i += 4;
-            if (jo % 6 == 4)
                 i += 3;
-            if (jo % 6 == 5)
+            if (jo % 6 == 4)
                 i += 4;
+            if (jo % 6 == 5)
+                i += 1;
             jo++;
         } else {
             r.notEmpty = false;

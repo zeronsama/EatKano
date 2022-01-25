@@ -209,9 +209,9 @@ function refreshGameLayer(box, loop, offset) {
             r.notEmpty = true;
             i = (Math.floor(j / 4) + 1) * 4-1;
             if (jo % 2 == 0)
-                i += 1;
-            if (jo % 2 == 1)
                 i += 3;
+            if (jo % 2 == 1)
+                i += 1;
             jo++;
         } else {
             r.notEmpty = false;
