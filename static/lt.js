@@ -344,7 +344,7 @@ function shareText(score) {
     if (score <= 79) return '试着好好练一下？';
     if (score <= 139) return '被盛bug逼疯';
     if (score <= 199) return '谢谢你趣宝';
-    return '欢迎来一筒群玩794573579';
+    return '您？？？';
 }
 
 function toStr(obj) {
