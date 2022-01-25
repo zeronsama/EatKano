@@ -336,15 +336,19 @@ function backBtn() {
 
 function shareText(score) {
     var date2 = new Date();
+    var result = "实际时间"
     deviation_time = (date2.getTime() - _date1.getTime())
-    if (deviation_time > 23000) {
+    /*if (deviation_time > 23000) {
         return '倒计时多了' + ((deviation_time / 1000) - 20).toFixed(2) + "s";
-    }
+    }*/
     SubmitResults();
-    if (score <= 79) return '试着好好练一下？';
-    if (score <= 139) return '被盛bug逼疯';
-    if (score <= 199) return '谢谢你趣宝';
-    return '您？？？';
+    result += ((deviation_time / 1000)).toFixed(2) + "s<br>" + 'cps' + (score / ((deviation_time / 1000))).toFixed(2);
+    if (score <= 39) result += '<br>试着好好练一下？';
+    if (score >= 40 && score <= 139) result += '<br>被盛bug逼疯';
+    if (score >= 140 && score <= 199) result += '<br>谢谢你趣宝';
+    if (score >= 200 && score <= 499) result += '<br>？？？';
+    if (score >= 500) result += '有人开科技，我不说是谁';
+    return result;
 }
 
 function toStr(obj) {
