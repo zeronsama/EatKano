@@ -1,30 +1,64 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="zh-CN">
 <head>
-	<meta charset="utf-8">
-	<title>4K练习？？</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4K练习？？</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        body {
+            text-align: center;
+            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            background-image: url(../图片/笨蛋.png);
+            background-repeat: no-repeat;
+            background-size: 100%;
+            background-position: center center;
+        }
+        .menu>a {
+            display: block;
+            text-decoration: none;
+            background-color: rgba(85, 88, 90,0.5);
+            font-size: 20px;
+            color: white;
+            width: 300px;
+            height: 60px;
+            padding: 0 30px;
+            line-height: 60px;
+            margin: 0 auto;
+            margin-bottom: 5px ;
+            border-radius: 20px;
+        }
+        .menu>a:hover {
+            background-color: rgba(255, 103, 0,0.5);
+            box-shadow: 5px 5px 3px #b0b0b0 ;
+        }
+        .yuanban {
+            color: #b0b0b0;
+        }
+        .yuanban:hover {
+            color: #ff6700;
+            text-shadow: 3px 3px 2px #b0b0b0;
+        }
+    </style>
 </head>
-
 <body>
-	<h1 align="center">吃掉小趣宝</h1>
-	<table border="1" align="center">
-		<tr>
-			<td><a href="./yb.html">原版随机</a></td>
-			<td><a href="./lt.html">楼梯单项练习</a></td>
-		</tr>
-		<tr>
-			<td><a href="./jh.html">交互单项练习</a></td>
-			<td><a href="./ywjh.html">移位交互单项练习</a></td>
-		</tr>
-		<tr>
-			<td><a href="./zllt.html">纵连楼梯单项练习</a></td>
-			<td><a href="./sj.html">三角单项练习</a></td>
-		</tr>
-	</table>
-	<p align="center">现在您可以通过键盘DFJK进行操作</p>
-	<h5 align="center">原版：<a href="https://arcxingye.github.io/EatKano/index.html">吃掉小鹿乃</a></h5>
-
+    <h1 style="font-size: 50px;">吃掉小趣宝</h1>
+    <h3 style="margin-bottom: 5px;">(现在您可以通过键盘DFJK进行操作)</h3>
+    <div class="menu">
+        <a href="./yb.html">原版随机</a>
+        <a href="./lt.html">楼梯单项练习</a>
+        <a href="./jh.html">交互单项练习</a>
+        <a href="./ywjh.html">移位交互练习</a>
+        <a href="./zllt.html">纵连楼梯单项练习</a>
+        <a href="./sj.html">三角单项练习</a>
+    </div>
+    <h5 style="font-size: 19px">
+        <em>原版：</em>
+        <a href="https://arcxingye.github.io/EatKano/index.html" class="yuanban">吃掉小鹿乃</a>
+    </h5>
 </body>
-
 </html>
