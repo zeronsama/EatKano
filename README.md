@@ -46,7 +46,7 @@ Github Page:https://arcxingye.github.io/EatKano/index.html
 
 - 鹿乃变成了趣宝呢
 
-- 换了个简陋主页
+- ~~换了个简陋主页~~ 大哥帮我写了个主页！！
 
 - 加了好几种生成规则
 
