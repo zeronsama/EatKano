@@ -309,11 +309,11 @@ function shareText(score) {
 		return '倒计时多了' + ((deviation_time / 1000) - 20).toFixed(2) + "s";
 	}*/
 	SubmitResults();
-	result += ((deviation_time / 1000)).toFixed(2) + "s<br>" + 'cps' + (score / ((deviation_time / 1000))).toFixed(2);
-	if (score <= 39) result += '<br>试着好好练一下？';
-	if (score >= 40 && score <= 139) result += '<br>被盛bug逼疯';
-	if (score >= 140 && score <= 199) result += '<br>谢谢你趣宝';
-	if (score >= 200 && score <= 499) result += '<br>？？？';
+	result += ((deviation_time / 1000)).toFixed(2) + "s<br>cps " + (score / ((deviation_time / 1000))).toFixed(2)+"<br>";
+	if (score <= 39) result += '试着好好练一下？';
+	if (score >= 40 && score <= 139) result += '被盛bug逼疯';
+	if (score >= 140 && score <= 199) result += '谢谢你化军';
+	if (score >= 200 && score <= 499) result += '您就是自信4K人';
 	if (score >= 500) result += '有人开科技，我不说是谁';
 	return result;
 }
@@ -399,7 +399,6 @@ function click(index) {
 
 	let fakeEvent = {
 		clientX: ((index - 1) * blockSize + index * blockSize) / 2 + body.offsetLeft,
-		// Make sure that it is in the area
 		clientY: (touchArea[0] + touchArea[1]) / 2,
 		target: document.getElementById(id),
 	};

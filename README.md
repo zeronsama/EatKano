@@ -44,7 +44,7 @@ Github Page:https://arcxingye.github.io/EatKano/index.html
 
 - 音效改成sif音效
 
-- 鹿乃变成了趣宝呢
+- 鹿乃变成了化军呢
 
 - ~~换了个简陋主页~~ 大哥帮我写了个主页！！
 
