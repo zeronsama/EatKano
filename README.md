@@ -51,3 +51,5 @@ Github Page:https://arcxingye.github.io/EatKano/index.html
 - 加了好几种生成规则
 
 - 修改结束信息，增加cps显示
+
+- 增加键盘支持(DFJK)

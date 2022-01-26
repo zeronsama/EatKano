@@ -1,15 +1,25 @@
-var isDesktop = navigator['userAgent'].match(/(ipad|iphone|ipod|android|windows phone)/i) ? false : true;
-var fontunit = isDesktop ? 20 : ((window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth) / 320) * 10;
+let isDesktop = navigator['userAgent'].match(/(ipad|iphone|ipod|android|windows phone)/i) ? false : true;
+let fontunit = isDesktop ? 20 : ((window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth) / 320) * 10;
 document.write('<style type="text/css">' +
 	'html,body {font-size:' + (fontunit < 30 ? fontunit : '30') + 'px;}' +
 	(isDesktop ? '#welcome,#GameTimeLayer,#GameLayerBG,#GameScoreLayer.SHADE{position: absolute;}' :
 		'#welcome,#GameTimeLayer,#GameLayerBG,#GameScoreLayer.SHADE{position:fixed;}@media screen and (orientation:landscape) {#landscape {display: box; display: -webkit-box; display: -moz-box; display: -ms-flexbox;}}') +
 	'</style>');
-if (isDesktop) document.write('<div id="gameBody">');
-var body, blockSize, GameLayer = [],
+let map = { 'd': 1, 'f': 2, 'j': 3, 'k': 4 };
+if (isDesktop) {
+	document.write('<div id="gameBody">');
+	document.onkeydown = function (e) {
+		let key = e.key.toLowerCase();
+		if (Object.keys(map).indexOf(key) !== -1) {
+			click(map[key])
+		}
+	}
+}
+let body, blockSize, GameLayer = [],
 	GameLayerBG, touchArea = [],
 	GameTimeLayer;
-var transform, transitionDuration;
+let transform, transitionDuration;
+
 function init() {
 	showWelcomeLayer();
 	body = document.getElementById('gameBody') || document.body;
@@ -29,38 +39,34 @@ function init() {
 		GameLayerBG.onmousedown = gameTapEvent;
 	}
 	gameInit();
-	var username = cookie("username");
-	var message = cookie("message");
-	if (username) {
-		document.getElementById("username").value = username;
-	}
-	if (message) {
-		document.getElementById("message").value = message;
-	}
+	initSetting();
 	window.addEventListener('resize', refreshSize, false);
-	var btn = document.getElementById('ready-btn');
+	let btn = document.getElementById('ready-btn');
 	btn.className = 'btn btn-primary btn-lg';
 	btn.onclick = function () {
 		closeWelcomeLayer();
 	}
 }
+
 function winOpen() {
 	window.open(location.href + '?r=' + Math.random(), 'nWin', 'height=500,width=320,toolbar=no,menubar=no,scrollbars=no');
-	var opened = window.open('about:blank', '_self');
+	let opened = window.open('about:blank', '_self');
 	opened.opener = null;
 	opened.close();
 }
-var refreshSizeTime;
+let refreshSizeTime;
+
 function refreshSize() {
 	clearTimeout(refreshSizeTime);
 	refreshSizeTime = setTimeout(_refreshSize, 200);
 }
+
 function _refreshSize() {
 	countBlockSize();
-	for (var i = 0; i < GameLayer.length; i++) {
-		var box = GameLayer[i];
-		for (var j = 0; j < box.children.length; j++) {
-			var r = box.children[j],
+	for (let i = 0; i < GameLayer.length; i++) {
+		let box = GameLayer[i];
+		for (let j = 0; j < box.children.length; j++) {
+			let r = box.children[j],
 				rstyle = r.style;
 			rstyle.left = (j % 4) * blockSize + 'px';
 			rstyle.bottom = Math.floor(j / 4) * blockSize + 'px';
@@ -68,7 +74,7 @@ function _refreshSize() {
 			rstyle.height = blockSize + 'px';
 		}
 	}
-	var f, a;
+	let f, a;
 	if (GameLayer[0].y > GameLayer[1].y) {
 		f = GameLayer[0];
 		a = GameLayer[1];
@@ -76,12 +82,13 @@ function _refreshSize() {
 		f = GameLayer[1];
 		a = GameLayer[0];
 	}
-	var y = ((_gameBBListIndex) % 10) * blockSize;
+	let y = ((_gameBBListIndex) % 10) * blockSize;
 	f.y = y;
 	f.style[transform] = 'translate3D(0,' + f.y + 'px,0)';
 	a.y = -blockSize * Math.floor(f.children.length / 4) + y;
 	a.style[transform] = 'translate3D(0,' + a.y + 'px,0)';
 }
+
 function countBlockSize() {
 	blockSize = body.offsetWidth / 4;
 	body.style.height = window.innerHeight + 'px';
@@ -89,11 +96,12 @@ function countBlockSize() {
 	touchArea[0] = window.innerHeight - blockSize * 0;
 	touchArea[1] = window.innerHeight - blockSize * 3;
 }
-var _gameBBList = [],
+let _gameBBList = [],
 	_gameBBListIndex = 0,
 	_gameOver = false,
 	_gameStart = false,
-	_gameTime, _gameTimeNum, _gameScore;
+	_gameTime, _gameTimeNum, _gameScore, _date1, deviation_time;
+
 function gameInit() {
 	createjs.Sound.registerSound({
 		src: "./static/music/err.mp3",
@@ -109,6 +117,7 @@ function gameInit() {
 	});
 	gameRestart();
 }
+
 function gameRestart() {
 	_gameBBList = [];
 	_gameBBListIndex = 0;
@@ -121,11 +130,13 @@ function gameRestart() {
 	refreshGameLayer(GameLayer[0]);
 	refreshGameLayer(GameLayer[1], 1);
 }
+
 function gameStart() {
 	_date1 = new Date();
 	_gameStart = true;
 	_gameTime = setInterval(gameTime, 1000);
 }
+
 function gameOver() {
 	_gameOver = true;
 	clearInterval(_gameTime);
@@ -134,15 +145,18 @@ function gameOver() {
 		showGameScoreLayer();
 	}, 1500);
 }
+
+
 function encrypt(text) {
-	var encrypt = new JSEncrypt();
+	let encrypt = new JSEncrypt();
 	encrypt.setPublicKey("MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDTzGwX6FVKc7rDiyF3H+jKpBlRCV4jOiJ4JR33qZPVXx8ahW6brdBF9H1vdHBAyO6AeYBumKIyunXP9xzvs1qJdRNhNoVwHCwGDu7TA+U4M7G9FArDG0Y6k4LbS0Ks9zeRBMiWkW53yQlPshhtOxXCuZZOMLqk1vEvTCODYYqX5QIDAQAB");
-	var data = encrypt.encrypt(text);
+	let data = encrypt.encrypt(text);
 	return data;
 }
+
 function SubmitResults() {
-	var system = "其他操作系统";
-	var area = "异世界";
+	let system = "其他操作系统";
+	let area = "异世界";
 	if (document.getElementById("username").value) {
 		if (navigator.appVersion.indexOf("Win") != -1) system = "Windows";
 		if (navigator.appVersion.indexOf("Mac") != -1) system = "Macintosh";
@@ -150,15 +164,16 @@ function SubmitResults() {
 		if (navigator.appVersion.indexOf("Android") != -1) system = "Android";
 		if (navigator.appVersion.indexOf("like Mac") != -1) system = "iOS";
 		if (returnCitySN['cname']) { area = returnCitySN['cname'] };
-		var httpRequest = new XMLHttpRequest();
+		let httpRequest = new XMLHttpRequest();
 		httpRequest.open('POST', './SubmitResults.php', true);
 		httpRequest.setRequestHeader("Content-type", "application/json");
-		var name = document.getElementById("username").value;
-		var message = document.getElementById("message").value;
-		var test = "|_|";
+		let name = document.getElementById("username").value;
+		let message = document.getElementById("message").value;
+		let test = "|_|";
 		httpRequest.send(encrypt(_gameScore + test + name + test + tj + test + system + test + area + test + message));
 	}
 }
+
 function gameTime() {
 	_gameTimeNum--;
 	if (_gameTimeNum <= 0) {
@@ -170,14 +185,20 @@ function gameTime() {
 		GameTimeLayer.innerHTML = creatTimeText(_gameTimeNum);
 	}
 }
+
 function creatTimeText(n) {
 	return '&nbsp;TIME:' + n;
 }
-var _ttreg = / t{1,2}(\d+)/,
+let _ttreg = / t{1,2}(\d+)/,
 	_clearttClsReg = / t{1,2}\d+| bad/;
+
+
+let last = 0;
+let flag = 0;
+
 function gameLayerMoveNextRow() {
-	for (var i = 0; i < GameLayer.length; i++) {
-		var g = GameLayer[i];
+	for (let i = 0; i < GameLayer.length; i++) {
+		let g = GameLayer[i];
 		g.y += blockSize;
 		if (g.y > blockSize * (Math.floor(g.children.length / 4))) {
 			refreshGameLayer(g, 1, -1);
@@ -186,12 +207,13 @@ function gameLayerMoveNextRow() {
 		}
 	}
 }
+
 function gameTapEvent(e) {
 	if (_gameOver) {
 		return false;
 	}
-	var tar = e.target;
-	var y = e.clientY || e.targetTouches[0].clientY,
+	let tar = e.target;
+	let y = e.clientY || e.targetTouches[0].clientY,
 		x = (e.clientX || e.targetTouches[0].clientX) - body.offsetLeft,
 		p = _gameBBList[_gameBBListIndex];
 	if (y > touchArea[0] || y < touchArea[1]) {
@@ -215,13 +237,14 @@ function gameTapEvent(e) {
 	}
 	return false;
 }
+
 function createGameLayer() {
-	var html = '<div id="GameLayerBG">';
-	for (var i = 1; i <= 2; i++) {
-		var id = 'GameLayer' + i;
+	let html = '<div id="GameLayerBG">';
+	for (let i = 1; i <= 2; i++) {
+		let id = 'GameLayer' + i;
 		html += '<div id="' + id + '" class="GameLayer">';
-		for (var j = 0; j < 300; j++) {
-			for (var k = 0; k < 4; k++) {
+		for (let j = 0; j < 200; j++) {
+			for (let k = 0; k < 4; k++) {
 				html += '<div id="' + id + '-' + (k + j * 4) + '" num="' + (k + j * 4) + '" class="block' + (k ? ' bl' : '') +
 					'"></div>';
 			}
@@ -232,23 +255,26 @@ function createGameLayer() {
 	html += '<div id="GameTimeLayer"></div>';
 	return html;
 }
+
 function closeWelcomeLayer() {
-	var l = document.getElementById('welcome');
+	let l = document.getElementById('welcome');
 	l.style.display = 'none';
 }
+
 function showWelcomeLayer() {
-	var l = document.getElementById('welcome');
+	let l = document.getElementById('welcome');
 	l.style.display = 'block';
 }
+
 function showGameScoreLayer() {
-	var l = document.getElementById('GameScoreLayer');
-	var c = document.getElementById(_gameBBList[_gameBBListIndex - 1].id).className.match(_ttreg)[1];
+	let l = document.getElementById('GameScoreLayer');
+	let c = document.getElementById(_gameBBList[_gameBBListIndex - 1].id).className.match(_ttreg)[1];
 	l.className = l.className.replace(/bgc\d/, 'bgc' + c);
 	document.getElementById('GameScoreLayer-text').innerHTML = shareText(_gameScore);
-	var score_text = '得分&nbsp;&nbsp;';
+	let score_text = '得分&nbsp;&nbsp;';
 	score_text += deviation_time < 23000 ? _gameScore : "<span style='color:red;'>" + _gameScore + "</span>";
 	document.getElementById('GameScoreLayer-score').innerHTML = score_text;
-	var bast = cookie('bast-score');
+	let bast = cookie('bast-score');
 	if (deviation_time < 23000) {
 		if (!bast || _gameScore > bast) {
 			bast = _gameScore;
@@ -258,19 +284,23 @@ function showGameScoreLayer() {
 	document.getElementById('GameScoreLayer-bast').innerHTML = '最佳&nbsp;&nbsp;' + bast;
 	l.style.display = 'block';
 }
+
 function hideGameScoreLayer() {
-	var l = document.getElementById('GameScoreLayer');
+	let l = document.getElementById('GameScoreLayer');
 	l.style.display = 'none';
 }
+
 function replayBtn() {
 	gameRestart();
 	hideGameScoreLayer();
 }
+
 function backBtn() {
 	gameRestart();
 	hideGameScoreLayer();
 	showWelcomeLayer();
 }
+
 function shareText(score) {
 	var date2 = new Date();
 	var result = "实际时间"
@@ -287,19 +317,20 @@ function shareText(score) {
 	if (score >= 500) result += '有人开科技，我不说是谁';
 	return result;
 }
+
 function toStr(obj) {
 	if (typeof obj == 'object') {
 		return JSON.stringify(obj);
 	} else {
 		return obj;
 	}
-	return '';
 }
+
 function cookie(name, value, time) {
 	if (name) {
 		if (value) {
 			if (time) {
-				var date = new Date();
+				let date = new Date();
 				date.setTime(date.getTime() + 864e5 * time), time = date.toGMTString();
 			}
 			return document.cookie = name + "=" + escape(toStr(value)) + (time ? "; expires=" + time + (arguments[3] ?
@@ -310,12 +341,25 @@ function cookie(name, value, time) {
 			value = value && "string" == typeof value[1] ? unescape(value[1]) : !1, (/^(\{|\[).+\}|\]$/.test(value) ||
 				/^[0-9]+$/g.test(value)) && eval("value=" + value), value;
 	}
-	var data = {};
+	let data = {};
 	value = document.cookie.replace(/\s/g, "").split(";");
-	for (var i = 0; value.length > i; i++) name = value[i].split("="), name[1] && (data[name[0]] = unescape(name[1]));
+	for (let i = 0; value.length > i; i++) name = value[i].split("="), name[1] && (data[name[0]] = unescape(name[1]));
 	return data;
 }
 document.write(createGameLayer());
+
+function initSetting() {
+	document.getElementById("username").value = cookie("username") ? cookie("username") : "";
+	document.getElementById("message").value = cookie("message") ? cookie("message") : "";
+	if (cookie("keyboard")) {
+		document.getElementById("keyboard").value = cookie("keyboard");
+		map = {}
+		map[cookie("keyboard").charAt(0).toLowerCase()] = 1;
+		map[cookie("keyboard").charAt(1).toLowerCase()] = 2;
+		map[cookie("keyboard").charAt(2).toLowerCase()] = 3;
+		map[cookie("keyboard").charAt(3).toLowerCase()] = 4;
+	}
+}
 function show_btn() {
 	document.getElementById("btn_group").style.display = "block"
 	document.getElementById("setting").style.display = "none"
@@ -327,9 +371,11 @@ function show_setting() {
 function save_cookie() {
 	cookie('username', document.getElementById("username").value, 100);
 	cookie('message', document.getElementById("message").value, 100);
+	cookie('keyboard', document.getElementById("keyboard").value, 100);
+	initSetting();
 }
 function isnull(val) {
-	var str = val.replace(/(^\s*)|(\s*$)/g, '');
+	let str = val.replace(/(^\s*)|(\s*$)/g, '');
 	if (str == '' || str == undefined || str == null) {
 		return true;
 	} else {
@@ -337,16 +383,26 @@ function isnull(val) {
 	}
 }
 function goRank() {
-	var name = document.getElementById("username").value;
-	var link = './rank.php';
+	let name = document.getElementById("username").value;
+	let link = './rank.php';
 	if (!isnull(name)) {
 		link += "?name=" + name;
 	}
 	window.location.href = link;
 }
-console.log("不修改，好嘛？乱传又有什么用呢？(ˉ▽ˉ；)...")
-document.onkeydown = function (e) {
-	if (e.keyCode == 123) {
-		return false
-	}
-};
+
+function click(index) {
+	let p = _gameBBList[_gameBBListIndex];
+	let base = parseInt(document.getElementById(p.id).getAttribute("num")) - p.cell;
+	let num = base + index - 1;
+	let id = p.id.substring(0, 11) + num;
+
+	let fakeEvent = {
+		clientX: ((index - 1) * blockSize + index * blockSize) / 2 + body.offsetLeft,
+		// Make sure that it is in the area
+		clientY: (touchArea[0] + touchArea[1]) / 2,
+		target: document.getElementById(id),
+	};
+
+	gameTapEvent(fakeEvent)
+}
